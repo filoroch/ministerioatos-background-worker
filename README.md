@@ -5,5 +5,5 @@ Esse projeto se concentra em criar um agendador de tarefas para de forma assincr
 - Encaminhar mensagens de telegram/whatsapp programaticamente com base em linhas de uma tabela
 
 ## Proximos passos
-- [] Criar endpoints para rodar um job manualmente
-- [] Alterar a forma de comunicação com o banco de rest para SQL (NHibernate)
+- [ ] Criar endpoints para rodar um job manualmente
+- [ ] Alterar a forma de comunicação com o banco de rest para SQL (NHibernate)
