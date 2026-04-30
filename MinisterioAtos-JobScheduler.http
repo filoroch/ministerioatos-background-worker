@@ -1,0 +1,6 @@
+@MinisterioAtos_JobScheduler_HostAddress = http://localhost:5227
+
+GET {{MinisterioAtos_JobScheduler_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
