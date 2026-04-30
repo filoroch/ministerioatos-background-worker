@@ -3,7 +3,8 @@ public class YoutubeService : IYoutube
     /// <summary>
     /// Url do endpoint base
     /// </summary>
-    private readonly string _apiEndpoint = "";
+    private readonly string _youtubeApiEndpoint = "";
+    private readonly string _youtubeLivestreamsApiEndpoint = "https://www.googleapis.com/youtube/v3/liveBroadcasts";
 
     /// <summary>
     /// Url do endpoint base
@@ -15,7 +16,7 @@ public class YoutubeService : IYoutube
     /// </summary>
     private readonly string _idChannel = "";
 
-    public void GetLivestreams()
+    public async Task<List<> GetLivestreams()
     {
         throw new NotImplementedException();
     }
