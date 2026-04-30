@@ -10,6 +10,7 @@ builder.Services.AddOpenApi();
 
 // Injetando EventService no conteiner de DI do ASP.NET
 builder.Services.AddScoped<EventService>();
+builder.Services.AddScoped<LiveScheduleService>();
 
 /// Adicionando o Quartz como serviço de Scheduling Job e configurando
 builder.Services.AddQuartz(quartz => 

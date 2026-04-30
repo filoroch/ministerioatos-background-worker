@@ -2,5 +2,6 @@ public record CreateScheduleLiveCommander
 (
     string Title,
     string Description,
-    DateTime StartWith
+    DateTime StartWith,
+    string status
 );

@@ -16,12 +16,12 @@ public class YoutubeService : IYoutube
     /// </summary>
     private readonly string _idChannel = "";
 
-    public async Task<List<> GetLivestreams()
+    public void GetLivestreams(DateOnly startDate, DateOnly endDate)
     {
         throw new NotImplementedException();
     }
 
-    public void GetLivestreams(DateOnly startDate, DateOnly endDate)
+    public Task<List<T>> GetLivestreams()
     {
         throw new NotImplementedException();
     }

@@ -17,7 +17,7 @@ public class Event : BaseModel
     public string Description {get; set; }
 
     [Column("start")]
-    public string Start {get; set;}
+    public DateTime Start {get; set;}
 
     [Column("local")]
     public string Local {get; set;}
