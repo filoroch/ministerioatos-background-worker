@@ -3,12 +3,12 @@ using Quartz;
 
 public class UpdateLivestream : YoutubeJob
 {
-    private readonly YoutubeService _youtubeService;
+    private readonly IYoutube _youtubeService;
 
     public UpdateLivestream
     (
         ILogger<UpdateLivestream> logger,
-        YoutubeService youtubeService
+        IYoutube youtubeService
     )
     {
         Logger = logger;

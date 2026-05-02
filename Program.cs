@@ -7,8 +7,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 /// Adicionado os serviços da aplicação
 builder.Services.AddOpenApi();
-
-// Injetando EventService no conteiner de DI do ASP.NET
 builder.Services.AddScoped<EventService>();
 builder.Services.AddScoped<LiveScheduleService>();
 
