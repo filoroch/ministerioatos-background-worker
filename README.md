@@ -1,4 +1,4 @@
-Agendador de Taredas | Ad Ministerio Atos
+# Agendador de Taredas | Ad Ministerio Atos
 
 Esse projeto se concentra em criar um agendador de tarefas para de forma assincrona e programada, executar ações como:
 - Agendar lives no Youtube com base em eventos da Igreja
@@ -39,7 +39,7 @@ sequenceDiagram
 ```
 
 ## Proximos passos
-- [ ] Criar endpoints para rodar um job manualmente
-- [ ] Alterar a forma de comunicação com o banco de rest para SQL (NHibernate)
+- [  ] Criar endpoints para rodar um job manualmente
+- [  ] Alterar a forma de comunicação com o banco de rest para SQL (NHibernate)
 - [ ] Usar o Liquibase para criar e versionar o banco
 - [ ] Verificar o uso das SDKs do Telegram, Youtube e Cloudnary em vez das APIs
