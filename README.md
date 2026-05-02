@@ -22,6 +22,7 @@ O projeto precisa seguir uma arquitetura que lembre um pouco da clean arch, send
     - Contratos: interfaces dos jobs
 
 ## Fluxo
+### Agendador de lives no youtube
 ```mermaid
 sequenceDiagram
   participant Trigger as Trigger (Quartz)
