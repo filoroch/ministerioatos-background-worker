@@ -3,7 +3,18 @@
 /// </summary>
 public interface IYoutube
 {
-    Task<List<string>> GetLivestreams();
+    /// <summary>
+    /// Metodo generico que retorna as livestreams do Youtube como objeto LiveStream
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    Task<List<T>> GetLivestreamsAsync<T>();
+
+    /// <summary>
+    /// Retorna transmissões em um intervalo de datas específico.
+    /// </summary>
+    Task<List<T>> GetLivestreamsAsync<T>(DateOnly startDate, DateOnly endDate);
+
     void GetLivestreams(DateOnly startDate, DateOnly endDate);
     void ScheduleLive(CreateScheduleLiveCommander commander);
     void SetThumbnailOnLive(SetThumbnailOnLiveCommander commander);

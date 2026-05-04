@@ -1,32 +1,22 @@
-using Supabase.Postgrest.Attributes;
-using Supabase.Postgrest.Models;
-
 /// <summary>
 /// Representa os eventos da igreja
 /// </summary>
-[Table("event")]
-public class Event : BaseModel
+public class Event 
 {
-    [PrimaryKey("id")]
     public int Id {get; set; }
 
-    [Column("title")]
-    public string Title {get; set; }
+    public string Titulo {get; set; }
     
-    [Column("description")]
-    public string Description {get; set; }
+    public string Descricao {get; set; }
 
-    [Column("start")]
-    public DateTime Start {get; set;}
+    public DateTime DataHora {get; set;}
 
-    [Column("local")]
-    public string Local {get; set;}
+    public Congregacao Congregacao {get; set;}
+    public StatusEvento Status;
 
-    [Column("created_at")]
-    public string CreatedAt {get; set; }
-
-    public override string ToString()
-    {
-        return $"{Id} {Title} {Start}";
-    }
+    // public override string ToString()
+    // {
+    //     return $"{Id} {Title} {Start}";
+    // }
 }
+

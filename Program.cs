@@ -51,7 +51,7 @@ builder.Services.AddQuartzHostedService(options =>
 builder.Services.AddSingleton<ISessionFactory>(sp => {
     return Fluently.Configure()
             .Database(MySQLConfiguration.Standard
-                .ConnectionString("Server=localhost;Database=ministerioatos_db;User ID=root;Password=;")
+                .ConnectionString("Server=localhost;Database=ministerioatos;User ID=root;Password=;")
             )
             .Database(SQLiteConfiguration.Standard
                 .UsingFile("MinisterioAtos")
@@ -61,7 +61,7 @@ builder.Services.AddSingleton<ISessionFactory>(sp => {
             .Mappings(map => map.FluentMappings.AddFromAssemblyOf<Event>()
                 .Conventions.Add(FluentNHibernate.Conventions.Helpers.DefaultLazy.Never()) 
             )
-            .ExposeConfiguration(config => new SchemaUpdate(config).Execute(true, true))
+            //.ExposeConfiguration(config => new SchemaUpdate(config).Execute(true, true))
             .BuildSessionFactory();
 });
 
