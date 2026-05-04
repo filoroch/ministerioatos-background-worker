@@ -1,29 +1,23 @@
 ///Table: congregacoes
 public class Congregacao
 {
-    private int Id {get; set; }
-    private String Rua {get; set; }
-    private String Area {get; set;}
-    private int Numero {get; set;}
-    private string Cidade {get; set;}
-    private string UF {get; set;}
-    private string CEP {get; set;}
-    private enum StatusCongregacao;
-    private Pessoa PastorResponsavel {get; set;}
+    public int Id {get; set; }
+    public String Rua {get; set; }
+    public String Area {get; set;}
+    public int Numero {get; set;}
+    public string Cidade {get; set;}
+    public string UF {get; set;}
+    public string CEP {get; set;}
+    public EStatusCongregacao Status{get; set;}
+    public Pessoa PastorResponsavel {get; set;}
+
+    public bool Equals(Congregacao congregacao)
+    {
+        return Id == congregacao.Id ? true : false;
+    }
+    public bool Equals(int congregacao_id)
+    {
+        return Id == congregacao_id? true : false;
+    }
 }
 
-internal class Pessoa
-{
-    public int Id;
-    public String Nome;
-    public String Sobrenome;
-    public SituacaoPessoa Situacao;
-    
-    Table: pessoas
-Columns:
-id int(11) PK 
-nome varchar(45) 
-sobrenome varchar(45) 
-situacao set('Visitante','Congregado','Batizado') 
-status set('Ativo','Desativado')
-}

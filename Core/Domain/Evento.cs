@@ -1,7 +1,7 @@
 /// <summary>
 /// Representa os eventos da igreja
 /// </summary>
-public class Event 
+public class Evento 
 {
     public int Id {get; set; }
 
@@ -18,5 +18,12 @@ public class Event
     // {
     //     return $"{Id} {Title} {Start}";
     // }
+
+    // public override bool Equals(object? obj)
+    // {
+    //     return base.Equals(obj);
+    // }
+
+    
 }
 

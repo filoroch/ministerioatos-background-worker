@@ -1,4 +1,4 @@
-public enum SituacaoPessoa
+public enum ESituacaoPessoa
 {
     Visitante = 0,
     Congregado = 1,

@@ -1,6 +1,6 @@
 using FluentNHibernate.Mapping;
 
-public class EventMap : ClassMap<Event>
+public class EventMap : ClassMap<Evento>
 {
     public EventMap()
     {

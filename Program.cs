@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 /// Adicionado os serviços da aplicação
 builder.Services.AddOpenApi();
-builder.Services.AddScoped<EventService>();
+builder.Services.AddScoped<EventoService>();
 builder.Services.AddScoped<LiveScheduleService>();
 
 /// Adicionando o Quartz como serviço de Scheduling Job e configurando
@@ -58,7 +58,7 @@ builder.Services.AddSingleton<ISessionFactory>(sp => {
                 .Driver<NHibernate.Driver.SQLite20Driver>()
                 .Dialect<NHibernate.Dialect.SQLiteDialect>()
             )
-            .Mappings(map => map.FluentMappings.AddFromAssemblyOf<Event>()
+            .Mappings(map => map.FluentMappings.AddFromAssemblyOf<Evento>()
                 .Conventions.Add(FluentNHibernate.Conventions.Helpers.DefaultLazy.Never()) 
             )
             //.ExposeConfiguration(config => new SchemaUpdate(config).Execute(true, true))
