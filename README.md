@@ -28,15 +28,14 @@ sequenceDiagram
   participant Trigger as Trigger (Quartz)
   participant Job as Job
   participant Service as Service
-  participant Data as Data
+  participant Communication as Communication
 
   Trigger ->>+ Job: 1. Executa o job de agendamento de lives semanal
-  Job ->>+ Service: 1.1 Verifica os eventos no banco
-  Data ->>+ Service: 1.2 Retorna os dados 
-  Job ->>+ Service: 1.3  Verifica os agendamento no banco
-  Data ->>+ Service: 1.4 Retorna os dados 
-  Job ->>+ Service: 1.5 Chama o serviço de agendamento
-  Job ->>+ Service: 1.6 Persiste os dados de agendamento
+  Job <->>+ Service: 1.1 Verifica os eventos no banco
+  Job <->>+ Service: 1.2  Verifica os agendamento no banco
+  Job <->>+ Service: 1.3 Chama o serviço de agendamento
+  Job <->>+ Service: 1.4 Persiste os dados de agendamento
+  Job <->>+ Communication: 1.5 Envia o log completo no telegram 
 ```
 
 ## Proximos passos
