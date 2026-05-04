@@ -1,7 +1,8 @@
-using Microsoft.VisualBasic;
+using FluentNHibernate.Cfg;
+using FluentNHibernate.Cfg.Db;
+using NHibernate;
+using NHibernate.Tool.hbm2ddl;
 using Quartz;
-using Quartz.Util;
-using Supabase;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +16,6 @@ builder.Services.AddQuartz(quartz =>
 {
     var ScheduleLiveJobKey = new JobKey("ScheduleLiveJob");
     
-    
     quartz.AddJob<ScheduleLive>(options => options
         .WithIdentity(ScheduleLiveJobKey)
     );
@@ -23,7 +23,6 @@ builder.Services.AddQuartz(quartz =>
     quartz.AddTrigger(options => options
         .ForJob(ScheduleLiveJobKey)
         .WithIdentity("ScheduleLiveOnYoutube - Trigger")
-        // Defir o tempo do trigger
         .WithCronSchedule("0/15 * * * * ?")
     );
 
@@ -34,7 +33,7 @@ builder.Services.AddQuartz(quartz =>
     );
 
     quartz.AddTrigger(options => options
-        .ForJob(ScheduleLiveJobKey)
+        .ForJob(UpdateLivestreamJobKey)
         .WithIdentity("UpdateLivestreamOnYoutube - Trigger")
         .WithCronSchedule("0 6 * * 0") // 06h de todo domingo
     );
@@ -48,17 +47,26 @@ builder.Services.AddQuartzHostedService(options =>
     options.WaitForJobsToComplete = true;
 });
 
-var supabaseUrl = Environment.GetEnvironmentVariable("SUPAURL");
-var supabaseKey = Environment.GetEnvironmentVariable("SUPAKEY");
-
-builder.Services.AddSingleton(provider => {
-    
-    var options = new SupabaseOptions
-    {
-        AutoConnectRealtime = true
-    };    
-    return new Supabase.Client(supabaseUrl, supabaseKey, options);
+// Registra a fabrica de Sessões do NHIbernate como um serviço global (singleton)
+builder.Services.AddSingleton<ISessionFactory>(sp => {
+    return Fluently.Configure()
+            .Database(MySQLConfiguration.Standard
+                .ConnectionString("Server=localhost;Database=ministerioatos_db;User ID=root;Password=;")
+            )
+            .Database(SQLiteConfiguration.Standard
+                .UsingFile("MinisterioAtos")
+                .Driver<NHibernate.Driver.SQLite20Driver>()
+                .Dialect<NHibernate.Dialect.SQLiteDialect>()
+            )
+            .Mappings(map => map.FluentMappings.AddFromAssemblyOf<Event>()
+                .Conventions.Add(FluentNHibernate.Conventions.Helpers.DefaultLazy.Never()) 
+            )
+            .ExposeConfiguration(config => new SchemaUpdate(config).Execute(true, true))
+            .BuildSessionFactory();
 });
+
+builder.Services
+    .AddScoped(factory => factory.GetRequiredService<ISessionFactory>().OpenSession());
 
 var app = builder.Build();
 
@@ -71,8 +79,5 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// 3. Inicializando o cliente assincronamente ANTES do app rodar
-var supabaseClient = app.Services.GetRequiredService<Supabase.Client>();
-await supabaseClient.InitializeAsync();
 
 app.Run();

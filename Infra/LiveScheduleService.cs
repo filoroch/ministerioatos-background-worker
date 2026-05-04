@@ -24,14 +24,13 @@ public class LiveScheduleService
     /// <returns></returns>
     public async Task<List<LiveSchedule>> GetSchedulesAsync()
     {
-        var response = await _supabase.From<LiveSchedule>().Get();
-        return response.Models;
+        throw new Exception("Teste");
     }
 
-    public Task<List<LiveSchedule>> GenerateSchedules(List<Event> eventsNotScheduled)
-    {
-        List<LiveSchedule> scheduledEvents = new List<LiveSchedule>();
-        eventsNotScheduled.ForEach(e => scheduledEvents.Add(new LiveSchedule(eventId: e.Id ,Title: e.Title, dateTime: e.Start))); 
-        return scheduledEvents;
-    }
+    // public Task<List<LiveSchedule>> GenerateSchedules(List<Event> eventsNotScheduled)
+    // {
+    //     List<LiveSchedule> scheduledEvents = new List<LiveSchedule>();
+    //     eventsNotScheduled.ForEach(e => scheduledEvents.Add(new LiveSchedule(eventId: e.Id ,Title: e.Title, dateTime: e.Start))); 
+    //     return scheduledEvents;
+    // }
 }

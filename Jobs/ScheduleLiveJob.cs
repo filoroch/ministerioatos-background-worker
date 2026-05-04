@@ -60,16 +60,20 @@ public class ScheduleLive : YoutubeJob
             }
 
             // Pega os eventos
-            var eventsNotScheduled = events.Where(e => !liveShedules.Any(l => l.EventId == e.Id));
+            var eventsWithoutSchedules = from e in events
+                             join l in liveShedules on e.Id equals l.EventId into groupJoin
+                             from subL in groupJoin.DefaultIfEmpty()
+                             where subL == null
+                             select e;
             
-            if (eventsNotScheduled.IsNullOrEmpty())
+            if (eventsWithoutSchedules.IsNullOrEmpty())
             {
                 Logger.LogWarning("Não existe eventos sem agendamento no banco");    
                 return;
             }
 
-            _liveScheduleService.CreateSchedulingCommand(List<Event> eventsNotScheduled);
-
+            _eventService.GetEventsAsync();
+        
         } catch (Exception ex)
         {
             Logger.LogError($"Ocorreu um erro: {ex.Message}");

@@ -31,11 +31,11 @@ sequenceDiagram
   participant Communication as Communication
 
   Trigger ->>+ Job: 1. Executa o job de agendamento de lives semanal
-  Job <->>+ Service: 1.1 Verifica os eventos no banco
-  Job <->>+ Service: 1.2  Verifica os agendamento no banco
-  Job <->>+ Service: 1.3 Chama o serviço de agendamento
-  Job <->>+ Service: 1.4 Persiste os dados de agendamento
-  Job <->>+ Communication: 1.5 Envia o log completo no telegram 
+  Job ->>+ Service: 1.1 Verifica os eventos no banco
+  Job ->>+ Service: 1.2  Verifica os agendamento no banco
+  Job ->>+ Service: 1.3 Chama o serviço de agendamento
+  Job ->>+ Service: 1.4 Persiste os dados de agendamento
+  Job ->>+ Communication: 1.5 Envia o log completo no telegram
 ```
 
 ## Proximos passos
