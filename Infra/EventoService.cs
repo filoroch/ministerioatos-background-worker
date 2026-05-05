@@ -8,14 +8,18 @@ public class EventoService : IEventService
         repository = _repository;
     }
 
-    public Task<ICollection<Evento>> GetEventsAsync()
+    public Task<ICollection<Evento>> GetByCongregacaoAsync()
     {
-        var events = repository.GetAllAsync();
-        return events;
+        throw new NotImplementedException();
     }
 
-    Task<ICollection<Evento>> IEventService.GetEventsByStatusAsync()
+    public Task<ICollection<Evento>> GetEventsAsync()
     {
-        var eventsByStatus = repository.GetByStatus();
+        throw new NotImplementedException();
+    }
+
+    public Task<ICollection<Evento>> GetEventsByStatusAsync()
+    {
+        throw new NotImplementedException();
     }
 }

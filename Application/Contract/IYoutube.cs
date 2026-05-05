@@ -8,14 +8,14 @@ public interface IYoutube
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    Task<List<T>> GetLivestreamsAsync<T>();
+    // Task<List<T>> GetLivestreamsAsync<T>();
 
     /// <summary>
     /// Retorna transmissões em um intervalo de datas específico.
     /// </summary>
-    Task<List<T>> GetLivestreamsAsync<T>(DateOnly startDate, DateOnly endDate);
+    Task<List<T>> GetCompletedLivestreamsAsync<T>();
 
-    void GetLivestreams(DateOnly startDate, DateOnly endDate);
-    void ScheduleLive(CreateScheduleLiveCommander commander);
-    void SetThumbnailOnLive(SetThumbnailOnLiveCommander commander);
+    // void GetLivestreams(DateOnly startDate, DateOnly endDate);
+    // void ScheduleLive(CreateScheduleLiveCommander commander);
+    // void SetThumbnailOnLive(SetThumbnailOnLiveCommander commander);
 }

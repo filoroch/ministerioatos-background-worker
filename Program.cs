@@ -8,35 +8,46 @@ var builder = WebApplication.CreateBuilder(args);
 
 /// Adicionado os serviços da aplicação
 builder.Services.AddOpenApi();
-builder.Services.AddScoped<EventoService>();
-builder.Services.AddScoped<LiveScheduleService>();
+//builder.Services.AddScoped<EventoService>();
+// builder.Services.AddScoped<IYoutube, YoutubeAPIService>();
+builder.Services.AddHttpClient<IYoutube, YoutubeAPIService>();
 
 /// Adicionando o Quartz como serviço de Scheduling Job e configurando
 builder.Services.AddQuartz(quartz => 
 {
-    var ScheduleLiveJobKey = new JobKey("ScheduleLiveJob");
+
+    var FixLivesOnYoutube = new JobKey("FixLivesOnYoutubeJob");
+
+    quartz.AddJob<FixLivesOnYoutubeJob>(options => options.WithIdentity(FixLivesOnYoutube));
+    quartz.AddTrigger(options => options
+        .ForJob(FixLivesOnYoutube)
+        .WithIdentity("FixLivesOnYoutubeJob")
+        .WithCronSchedule("0/35 * * * * ?")
+    );
+
+    // var ScheduleLiveJobKey = new JobKey("ScheduleLiveJob");
     
-    quartz.AddJob<ScheduleLive>(options => options
-        .WithIdentity(ScheduleLiveJobKey)
-    );
+    // quartz.AddJob<>(options => options
+    //     .WithIdentity(ScheduleLiveJobKey)
+    // );
 
-    quartz.AddTrigger(options => options
-        .ForJob(ScheduleLiveJobKey)
-        .WithIdentity("ScheduleLiveOnYoutube - Trigger")
-        .WithCronSchedule("0/15 * * * * ?")
-    );
+    // quartz.AddTrigger(options => options
+    //     .ForJob(ScheduleLiveJobKey)
+    //     .WithIdentity("ScheduleLiveOnYoutube - Trigger")
+    //     .WithCronSchedule("0/15 * * * * ?")
+    // );
 
-    var UpdateLivestreamJobKey = new JobKey("UpdateLiveJob");
+    // var UpdateLivestreamJobKey = new JobKey("UpdateLiveJob");
 
-    quartz.AddJob<UpdateLivestream>(options => options
-        .WithIdentity(UpdateLivestreamJobKey)
-    );
+    // quartz.AddJob<UpdateLivestream>(options => options
+    //     .WithIdentity(UpdateLivestreamJobKey)
+    // );
 
-    quartz.AddTrigger(options => options
-        .ForJob(UpdateLivestreamJobKey)
-        .WithIdentity("UpdateLivestreamOnYoutube - Trigger")
-        .WithCronSchedule("0 6 * * 0") // 06h de todo domingo
-    );
+    // quartz.AddTrigger(options => options
+    //     .ForJob(UpdateLivestreamJobKey)
+    //     .WithIdentity("UpdateLivestreamOnYoutube - Trigger")
+    //     .WithCronSchedule("0 6 * * 0") // 06h de todo domingo
+    // );
 
 });
 

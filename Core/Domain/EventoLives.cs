@@ -2,6 +2,8 @@ public class EventoLives
 {
     public int Id {get; set;}
     public Evento Evento {get; set;}
+    public String Titulo;
+    public DateTime DateTime {get; set;}
     /// <summary>
     /// Representa a url da live que foi agendada no youtube
     /// </summary>

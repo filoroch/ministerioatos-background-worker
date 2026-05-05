@@ -22,7 +22,7 @@ public class LiveScheduleService
     /// Recupera a lista de todos os agendamentos do banco
     /// </summary>
     /// <returns></returns>
-    public async Task<List<LiveSchedule>> GetSchedulesAsync()
+    public async Task<List<EventoLives>> GetSchedulesAsync()
     {
         throw new Exception("Teste");
     }

@@ -1,5 +1,4 @@
 using NHibernate.Linq;
-using NHibernate.Util;
 
 public class EventoRepository : IEventoRepository
 {
@@ -41,7 +40,7 @@ public class EventoRepository : IEventoRepository
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    /// <exception cref="Exception"></exception>
+    /// <exception cref="Exception">Lança uma exceção se o valor de retorno for nulo</exception>
     public Task<Evento> GetByIdAsync(int id)
     {
         var target = session.Query<Evento>()
@@ -56,15 +55,34 @@ public class EventoRepository : IEventoRepository
        return target;
     }
 
-    public Task<ICollection<Evento>> GetByStatus(string status)
+    /// <summary>
+    /// Retorna uma lista de eventos com base no status
+    /// </summary>
+    /// <param name="status"></param>
+    /// <returns></returns>
+    public async Task<ICollection<Evento>> GetByStatus(string status)
     {
-        var eventsByStatus = session.Query<Evento>()
-            .Where(evento => evento.Status == status)
+        var eventsByStatus = await session
+            .Query<Evento>()
+            .Where(evento => evento.Status.ToString() == status)
             .ToListAsync();
+
+        return eventsByStatus;
     }
 
+
+    /// <summary>
+    /// Salva ou atualiza aquele evento especifico no banco
+    /// </summary>
+    /// <param name="evento"></param>
+    /// <returns></returns>
     public async Task SaveOrUpdateAsync(Evento evento)
     {
-        session.SaveOrUpdateAsync(evento);
+        if (evento.Id != null)
+        {
+            evento = await GetByIdAsync(evento.Id);
+        }
+        
+        await session.SaveOrUpdateAsync(evento);
     }
 }
