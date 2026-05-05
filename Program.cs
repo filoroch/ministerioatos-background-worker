@@ -64,6 +64,8 @@ builder.Services.AddSingleton<ISessionFactory>(sp => {
             .Database(MySQLConfiguration.Standard
                 .ConnectionString("Server=localhost;Database=ministerioatos;User ID=root;Password=;")
             )
+            .Database(PostgreSQLConfiguration.Standard
+                .ConnectionString(""))
             .Database(SQLiteConfiguration.Standard
                 .UsingFile("MinisterioAtos")
                 .Driver<NHibernate.Driver.SQLite20Driver>()

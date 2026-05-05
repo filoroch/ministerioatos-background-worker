@@ -11,6 +11,13 @@ public class EventoLivesMap : ClassMap<EventoLives>
             .Column("id_evento")
             .Not.Nullable();
 
+        Map(eventoLive => eventoLive.Titulo)
+            .Length(100)
+            .Not.Nullable();
+
+        Map(eventoLive => eventoLive.DataPublicacao)
+            .Not.Nullable();
+
         Map(p => p.UrlLive)
             .Length(50)
             .Not.Nullable();
