@@ -5,7 +5,7 @@ public class PessoaMap : ClassMap<Pessoa>
     public PessoaMap()
     {
         Id(p => p.Id)
-            .GeneratedBy.SequenceIdentity();
+            .GeneratedBy.Identity();
         
         Map(p => p.Nome)
             .Length(50)
@@ -18,7 +18,7 @@ public class PessoaMap : ClassMap<Pessoa>
             .CustomType("situacao")
             .CustomType<GenericEnumMapper<ESituacaoPessoa>>();
 
-        Map(p => p.Situacao)
+        Map(p => p.Status)
             .CustomType("status")
             .CustomType<GenericEnumMapper<EStatusPessoa>>();
 

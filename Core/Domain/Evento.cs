@@ -3,27 +3,21 @@
 /// </summary>
 public class Evento 
 {
-    public int Id {get; set; }
+    public virtual int Id {get; set; }
 
-    public string Titulo {get; set; }
+    public virtual string Titulo {get; set; }
     
-    public string Descricao {get; set; }
+    public virtual string Descricao {get; set; }
 
-    public DateTime DataHora {get; set;}
+    public virtual DateTime DataHora {get; set;}
 
-    public Congregacao Congregacao {get; set;}
-    public StatusEvento Status;
+    public virtual Congregacao Congregacao {get; set;}
+    public virtual StatusEvento Status {get; set;}
 
-    // public override string ToString()
-    // {
-    //     return $"{Id} {Title} {Start}";
-    // }
-
-    // public override bool Equals(object? obj)
-    // {
-    //     return base.Equals(obj);
-    // }
-
+    public override string ToString()
+    {
+        return $"{Id} | {Titulo} | {DataHora} | {Congregacao.Titulo} | {Status}";
+    }
     
 }
 

@@ -1,6 +1,7 @@
 public interface IEventoRepository
 {
     Task<Evento> GetByIdAsync(int id);
+    Task<ICollection<Evento>> GetByDateRange(DateTime startDate, DateTime endDate);
     Task<ICollection<Evento>> GetByCongregacao(Congregacao Congregacao);
     Task<ICollection<Evento>> GetByCongregacao(int idCongregacao);
     Task SaveOrUpdateAsync(Evento evento);

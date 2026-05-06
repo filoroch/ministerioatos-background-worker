@@ -1,4 +1,4 @@
-public class EventoService : IEventService
+public class EventoService : IEventoService
 {
 
     private readonly IEventoRepository repository;
@@ -13,7 +13,13 @@ public class EventoService : IEventService
         throw new NotImplementedException();
     }
 
-    public Task<ICollection<Evento>> GetEventsAsync()
+    public Task<ICollection<Evento>> GetByDateRange(DateTime startDate, DateTime endDate)
+    {
+        var eventsByRange = repository.GetByDateRange(startDate, endDate);
+        return eventsByRange;
+    }
+
+    public Task<ICollection<Evento>> GetEventosAsync()
     {
         throw new NotImplementedException();
     }

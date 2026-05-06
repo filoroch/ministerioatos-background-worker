@@ -5,7 +5,7 @@ public class EventMap : ClassMap<Evento>
     public EventMap()
     {
         Id(p => p.Id)
-            .GeneratedBy.SequenceIdentity();
+            .GeneratedBy.Identity();
 
         Map(p => p.Titulo)
             .Length(50)
@@ -15,6 +15,7 @@ public class EventMap : ClassMap<Evento>
             .Length(50);
 
         Map(e => e.DataHora)
+            .Column("data_hora")
             .Not.Nullable();
 
         References(x => x.Congregacao)

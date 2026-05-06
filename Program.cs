@@ -8,9 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 /// Adicionado os serviços da aplicação
 builder.Services.AddOpenApi();
-//builder.Services.AddScoped<EventoService>();
-// builder.Services.AddScoped<IYoutube, YoutubeAPIService>();
+builder.Services.AddScoped<IEventoService, EventoService>();
+builder.Services.AddScoped<IEventoRepository, EventoRepository>();
 builder.Services.AddHttpClient<IYoutube, YoutubeAPIService>();
+
 
 /// Adicionando o Quartz como serviço de Scheduling Job e configurando
 builder.Services.AddQuartz(quartz => 
@@ -63,14 +64,15 @@ builder.Services.AddSingleton<ISessionFactory>(sp => {
     return Fluently.Configure()
             .Database(MySQLConfiguration.Standard
                 .ConnectionString("Server=localhost;Database=ministerioatos;User ID=root;Password=;")
+                .Driver<NHibernate.Driver.MySqlDataDriver>()
             )
-            .Database(PostgreSQLConfiguration.Standard
-                .ConnectionString(""))
-            .Database(SQLiteConfiguration.Standard
-                .UsingFile("MinisterioAtos")
-                .Driver<NHibernate.Driver.SQLite20Driver>()
-                .Dialect<NHibernate.Dialect.SQLiteDialect>()
-            )
+            // .Database(PostgreSQLConfiguration.Standard
+            //     .ConnectionString(""))
+            // .Database(SQLiteConfiguration.Standard
+            //     .UsingFile("MinisterioAtos")
+            //     .Driver<NHibernate.Driver.SQLite20Driver>()
+            //     .Dialect<NHibernate.Dialect.SQLiteDialect>()
+            // )
             .Mappings(map => map.FluentMappings.AddFromAssemblyOf<Evento>()
                 .Conventions.Add(FluentNHibernate.Conventions.Helpers.DefaultLazy.Never()) 
             )

@@ -5,7 +5,7 @@ public class CongregacaoMap : ClassMap<Congregacao>
     public CongregacaoMap()
     {
         Id(c => c.Id)
-            .GeneratedBy.SequenceIdentity();
+            .GeneratedBy.Identity();
         
         Map(c => c.Titulo)
             .Length(100)

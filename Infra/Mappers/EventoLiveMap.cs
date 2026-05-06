@@ -5,7 +5,7 @@ public class EventoLivesMap : ClassMap<EventoLives>
     public EventoLivesMap()
     {
         Id(p => p.Id)
-            .GeneratedBy.SequenceIdentity();
+            .GeneratedBy.Identity();
         
         References(p => p.Evento)
             .Column("id_evento")

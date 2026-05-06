@@ -5,7 +5,7 @@ public class EventoWhatsappMap : ClassMap<EventoWhatsapp>
     public EventoWhatsappMap()
     {
         Id(e => e.Id)
-            .GeneratedBy.SequenceIdentity();
+            .GeneratedBy.Identity();
 
         References(e => e.Evento)
             .Column("id_evento")

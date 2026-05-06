@@ -35,6 +35,17 @@ public class EventoRepository : IEventoRepository
         return eventsByCongregacao;
     }
 
+    public async Task<ICollection<Evento>> GetByDateRange(DateTime startDate, DateTime endDate)
+    {
+        var events = await session
+            .Query<Evento>()
+            .Where(evento => evento.DataHora >= startDate)
+            .Where(evento => evento.DataHora <= endDate)
+            .ToListAsync();
+
+        return events;
+    }
+
     /// <summary>
     /// Retorna um evento por ID
     /// </summary>
