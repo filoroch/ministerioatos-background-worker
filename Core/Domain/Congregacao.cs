@@ -2,6 +2,7 @@
 public class Congregacao
 {
     public int Id {get; set; }
+    public String Titulo {get; set;}
     public String Rua {get; set; }
     public String Area {get; set;}
     public int Numero {get; set;}

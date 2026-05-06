@@ -7,6 +7,10 @@ public class CongregacaoMap : ClassMap<Congregacao>
         Id(c => c.Id)
             .GeneratedBy.SequenceIdentity();
         
+        Map(c => c.Titulo)
+            .Length(100)
+            .Not.Nullable();
+
         Map(c => c.Rua)
             .Length(50)
             .Not.Nullable();

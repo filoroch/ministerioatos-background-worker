@@ -22,13 +22,11 @@ public class FixLivesOnYoutubeJob : YoutubeJob
 
         if (lives == null || lives.Count <= 0)
         {
-            throw new Exception("Nenhuma live no youtube nesse periodo");
+            Logger.LogError("Nenhuma live no youtube nesse periodo");
+            return;
         }
 
-        foreach (var video in lives)
-        {
-            Console.WriteLine($"Titulo: {video.Snippet.Title} | Publicado em: {video.Snippet.publishedAt}");
-        }      
+         
 
         // Verificar quais estão registradas
         // Para as não registradas, criar o agendamento correspondente
