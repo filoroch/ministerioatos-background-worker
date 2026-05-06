@@ -2,17 +2,25 @@ public class EventoLives
 {
     public int Id {get; set;}
     public Evento Evento {get; set;}
-    public String Titulo;
+    public String Titulo {get; set;}
     public DateTime DataPublicacao {get; set;}
-    /// <summary>
-    /// Representa a url da live que foi agendada no youtube
-    /// </summary>
     public string UrlLive {get; set;}
-    /// <summary>
-    /// Representa a url da thumb que foi agendada no youtube
-    /// </summary>
     public string UrlThumb {get; set;}
 
     public EStatusEventoLive Status {get; set;}
+
+    public void DefineTitulo()
+    {
+        var dia = Evento.DataHora.Day.ToString();
+        var mes = Evento.DataHora.Month.ToString(); 
+        var titulo = Evento.Titulo;
+
+        Titulo = $"{dia}/{mes} | {titulo}";
+    }
+
+    public void DefineDataHora()
+    {
+        DataPublicacao = Evento.DataHora;
+    }
 }
 

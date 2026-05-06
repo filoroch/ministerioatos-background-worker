@@ -7,11 +7,13 @@ using Quartz.Logging;
 public class FixLivesOnYoutubeJob : YoutubeJob
 {
     private readonly IEventoService _eventoService;
+    private readonly IEventoLiveService _eventoLiveService;
     private readonly IYoutube _youtubeService;
 
     public FixLivesOnYoutubeJob
     (
         IEventoService eventoService, 
+        IEventoLiveService _eventoLiveService,
         IYoutube youtubeService, 
         ILogger<FixLivesOnYoutubeJob> logger)
     {
@@ -31,9 +33,9 @@ public class FixLivesOnYoutubeJob : YoutubeJob
             return;
         }
 
+        Logger.LogInformation("Recuperando dados dos eventos");
         var events = await _eventoService.GetByDateRange(DateTime.Parse("01/05/2026"), DateTime.Parse("29/05/2026"));
         
-        // Preciso de pegar os eventos que tem correspondencia de dada (no mesmo dia) com os videos no canal
         var eventsWithDateLive = events.Join(
             lives,
             evento => evento.DataHora.Date,             // Chave 1: Data do evento (sem a hora)
@@ -42,9 +44,6 @@ public class FixLivesOnYoutubeJob : YoutubeJob
         )
         .ToList();
 
-        foreach (var ev in eventsWithDateLive)
-        {
-            Console.WriteLine(ev.ToString());
-        }
+        
     }
 }
