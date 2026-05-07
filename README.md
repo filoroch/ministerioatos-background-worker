@@ -1,4 +1,4 @@
-# Agendador de Taredas | Ad Ministerio Atos
+# Agendador de Tarefas | Ad Ministerio Atos
 
 Esse projeto se concentra em criar um agendador de tarefas para de forma assincrona e programada, executar ações como:
 - Agendar lives no Youtube com base em eventos da Igreja
