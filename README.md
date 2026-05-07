@@ -39,7 +39,7 @@ sequenceDiagram
 ```
 
 ## Proximos passos
-- [  ] Criar endpoints para rodar um job manualmente
-- [  ] Alterar a forma de comunicação com o banco de rest para SQL (NHibernate)
-- [ ] Usar o Liquibase para criar e versionar o banco
+- [ ] Criar endpoints para rodar um job manualmente
+- [x] Alterar a forma de comunicação com o banco de rest para SQL (NHibernate)
+- [x] Usar o Liquibase para criar e versionar o banco
 - [ ] Verificar o uso das SDKs do Telegram, Youtube e Cloudnary em vez das APIs
