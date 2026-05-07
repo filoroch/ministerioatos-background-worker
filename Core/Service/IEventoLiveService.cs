@@ -1,5 +1,6 @@
 public interface IEventoLiveService
 {
+    Task CreateEventoLive(CreateEventLiveCommander cmd);
     void DefinePreletor();
     /// <summary>
     /// Recupera todos os eventos registrados (por enquanto)

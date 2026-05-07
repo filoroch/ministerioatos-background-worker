@@ -1,0 +1,156 @@
+<!-- <?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.12.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="filipe.rocha (generated)" id="1777913104156-1">
+        <createTable tableName="congregacoes">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="rua" type="VARCHAR(45)"/>
+            <column name="area" remarks="Representa a area onde a congregação esta alocada. Ex: Santos Dumont" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="numero" type="VARCHAR(45)"/>
+            <column name="cidade" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="UF" type="VARCHAR(2)"/>
+            <column name="CEP" type="VARCHAR(45)"/>
+            <column defaultValue="Ativo" name="status" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="NULL" name="pastor_responsavel" type="INT"/>
+        </createTable>
+        <sql>ALTER TABLE congregacoes ADD CONSTRAINT chk_status_congregacoes CHECK (status IN ('Ativo', 'Desativado'));</sql>
+    </changeSet>
+    <changeSet author="filipe.rocha (generated)" id="1777913104156-2">
+        <createTable tableName="evento_lives">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true" unique="true"/>
+            </column>
+            <column name="id_evento" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="url_live" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="url_thumb" type="VARCHAR(45)"/>
+            <column name="status" type="VARCHAR(20)"/>
+        </createTable>
+        <sql>ALTER TABLE evento_lives ADD CONSTRAINT chk_status_evento_lives CHECK (status IN ('Pendente', 'Agendado', 'Cancelado'));</sql>
+    </changeSet>
+    <changeSet author="filipe.rocha (generated)" id="1777913104156-3">
+        <createTable tableName="evento_participantes">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="id_evento" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="id_participante" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tipo_participante" type="VARCHAR(50)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="filipe.rocha (generated)" id="1777913104156-4">
+        <createTable tableName="eventos">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="titulo" type="VARCHAR(90)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="descricao" type="TEXT"/>
+            <column name="data_hora" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValueComputed="NULL" name="id_congregacao" type="INT"/>
+            <column defaultValue="Pendente" name="status" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <sql>ALTER TABLE eventos ADD CONSTRAINT chk_status_eventos CHECK (status IN ('Pendente', 'Agendado', 'Cancelado'));</sql>
+    </changeSet>
+    <changeSet author="filipe.rocha (generated)" id="1777913104156-5">
+        <createTable tableName="eventos_whatsapp">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="id_evento" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="mensagem" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="Pendente" name="status" type="VARCHAR(20)"/>
+        </createTable>
+        <sql>ALTER TABLE eventos_whatsapp ADD CONSTRAINT chk_status_whatsapp CHECK (status IN ('Pendente', 'Enviado', 'Cancelado'));</sql>
+    </changeSet>
+    <changeSet author="filipe.rocha (generated)" id="1777913104156-6">
+        <createTable tableName="pessoas">
+            <column autoIncrement="true" name="id" type="INT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="nome" type="VARCHAR(45)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sobrenome" type="VARCHAR(45)"/>
+            <column defaultValue="Visitante" name="situacao" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column defaultValue="Ativo" name="status" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <sql>ALTER TABLE pessoas ADD CONSTRAINT chk_situacao_pessoas CHECK (situacao IN ('Visitante', 'Congregado', 'Batizado'));</sql>
+        <sql>ALTER TABLE pessoas ADD CONSTRAINT chk_status_pessoas CHECK (status IN ('Ativo', 'Desativado'));</sql>
+    </changeSet>
+    <changeSet author="filipe.rocha (generated)" id="1777913104156-7">
+        <createIndex indexName="id_congregacao_idx" tableName="eventos">
+            <column name="id_congregacao"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="filipe.rocha (generated)" id="1777913104156-8">
+        <createIndex indexName="id_evento_idx" tableName="evento_lives">
+            <column name="id_evento"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="filipe.rocha (generated)" id="1777913104156-9">
+        <createIndex indexName="id_evento_participante_idx" tableName="evento_participantes">
+            <column name="id_evento"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="filipe.rocha (generated)" id="1777913104156-10">
+        <createIndex indexName="id_evento_whatsapp_idx" tableName="eventos_whatsapp">
+            <column name="id_evento"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="filipe.rocha (generated)" id="1777913104156-11">
+        <createIndex indexName="id_participante_idx" tableName="evento_participantes">
+            <column name="id_participante"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="filipe.rocha (generated)" id="1777913104156-12">
+        <createIndex indexName="pastor_congregacao_idx" tableName="congregacoes">
+            <column name="pastor_responsavel"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="filipe.rocha (generated)" id="1777913104156-13">
+        <addForeignKeyConstraint baseColumnNames="id_evento" baseTableName="evento_lives" constraintName="fk_evento_lives_eventos" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="eventos" validate="true"/>
+    </changeSet>
+    <changeSet author="filipe.rocha (generated)" id="1777913104156-14">
+        <addForeignKeyConstraint baseColumnNames="id_evento" baseTableName="evento_participantes" constraintName="fk_evento_participante" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="eventos" validate="true"/>
+    </changeSet>
+    <changeSet author="filipe.rocha (generated)" id="1777913104156-15">
+        <addForeignKeyConstraint baseColumnNames="id_participante" baseTableName="evento_participantes" constraintName="fk_evento_pessoa" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="pessoas" validate="true"/>
+    </changeSet>
+    <changeSet author="filipe.rocha (generated)" id="1777913104156-16">
+        <addForeignKeyConstraint baseColumnNames="id_congregacao" baseTableName="eventos" constraintName="id_congregacao" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="congregacoes" validate="true"/>
+    </changeSet>
+    <changeSet author="filipe.rocha (generated)" id="1777913104156-17">
+        <addForeignKeyConstraint baseColumnNames="id_evento" baseTableName="eventos_whatsapp" constraintName="id_evento_whatsapp" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="eventos" validate="true"/>
+    </changeSet>
+    <changeSet author="filipe.rocha (generated)" id="1777913104156-18">
+        <addForeignKeyConstraint baseColumnNames="pastor_responsavel" baseTableName="congregacoes" constraintName="pastor_congregacao" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="pessoas" validate="true"/>
+    </changeSet>
+</databaseChangeLog> -->

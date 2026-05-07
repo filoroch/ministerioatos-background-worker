@@ -8,10 +8,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 /// Adicionado os serviços da aplicação
 builder.Services.AddOpenApi();
-builder.Services.AddScoped<IEventoService, EventoService>();
 builder.Services.AddScoped<IEventoRepository, EventoRepository>();
+builder.Services.AddScoped<IEventoLiveRepository, EventoLiveRepository>();
+builder.Services.AddScoped<IEventoService, EventoService>();
+builder.Services.AddScoped<IEventoLiveService, EventoLiveService>();
 builder.Services.AddHttpClient<IYoutube, YoutubeAPIService>();
-
 
 /// Adicionando o Quartz como serviço de Scheduling Job e configurando
 builder.Services.AddQuartz(quartz => 
@@ -84,7 +85,6 @@ builder.Services
     .AddScoped(factory => factory.GetRequiredService<ISessionFactory>().OpenSession());
 
 var app = builder.Build();
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

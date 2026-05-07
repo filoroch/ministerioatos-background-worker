@@ -13,11 +13,12 @@ public class FixLivesOnYoutubeJob : YoutubeJob
     public FixLivesOnYoutubeJob
     (
         IEventoService eventoService, 
-        IEventoLiveService _eventoLiveService,
+        IEventoLiveService eventoLiveService,
         IYoutube youtubeService, 
         ILogger<FixLivesOnYoutubeJob> logger)
     {
         _eventoService = eventoService;
+        _eventoLiveService = eventoLiveService;
         _youtubeService = youtubeService;
         Logger = logger;
     }
@@ -34,16 +35,31 @@ public class FixLivesOnYoutubeJob : YoutubeJob
         }
 
         Logger.LogInformation("Recuperando dados dos eventos");
-        var events = await _eventoService.GetByDateRange(DateTime.Parse("01/05/2026"), DateTime.Parse("29/05/2026"));
-        
-        var eventsWithDateLive = events.Join(
-            lives,
-            evento => evento.DataHora.Date,             // Chave 1: Data do evento (sem a hora)
-            live => live.Snippet.publishedAt.Date,     // Chave 2: Data da live (sem a hora)
-            (evento, live) => evento                  // Resultado: Queremos apenas o objeto evento
-        )
-        .ToList();
+        var start = DateTime.Parse("01/05/2026");
+        var end = DateTime.Parse("29/05/2026");
+        var events = await _eventoService.GetByDateRange(start, end);
 
-        
+        if (events.Count <= 0)
+        {
+            Logger.LogError($"Nenhum evento encontrado no periodo: {start.ToString()} - {end.ToString()}");
+        }
+
+        Logger.LogInformation("Recuperando os eventos com datas correspondentes as lives no mesmo periodo");
+        var newEventoLive = lives.Join(
+            events, 
+            live => live.Snippet.publishedAt.Date,
+            evento => evento.DataHora.Date,
+            (live, evento) => new CreateEventLiveCommander(
+                Evento: evento, 
+                UrlLive: $"https://www.youtube.com/watch?v={live.Id}"
+            ) 
+        ).ToList();
+
+        foreach (var eventoLive in newEventoLive)
+        {
+            await _eventoLiveService.CreateEventoLive(eventoLive);
+        }
+
+        Logger.LogWarning($"JOB EXECUTADO COM SUCESSO");
     }
 }

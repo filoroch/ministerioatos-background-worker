@@ -1,6 +1,19 @@
 public class EventoLiveService : IEventoLiveService
 {
-    private readonly IEventoParticipantes eventoParticipantes;
+    private readonly IEventoLiveRepository eventoLiveRepository;
+
+    public EventoLiveService(IEventoLiveRepository _eventoLiveRepository)
+    {
+        eventoLiveRepository = _eventoLiveRepository;
+    }
+
+    public async Task CreateEventoLive(CreateEventLiveCommander cmd)
+    {
+        await eventoLiveRepository.SaveOrUpdateAsync(
+            new EventoLives(_evento: cmd.Evento, _urlLive: cmd.UrlLive)
+        );
+    }
+
     public void DefinePreletor()
     {
         // eventoParticipantes.GetPreletor();
