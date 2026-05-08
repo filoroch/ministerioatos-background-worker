@@ -1,5 +1,6 @@
 public interface IEventoLiveService
 {
+    Task<EventoLives> GetEventoLiveByIdAsync(int id);
     Task CreateEventoLive(CreateEventLiveCommander cmd);
     void DefinePreletor();
     /// <summary>

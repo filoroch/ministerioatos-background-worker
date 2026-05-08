@@ -13,50 +13,56 @@ builder.Services.AddScoped<IEventoLiveRepository, EventoLiveRepository>();
 builder.Services.AddScoped<IEventoService, EventoService>();
 builder.Services.AddScoped<IEventoLiveService, EventoLiveService>();
 builder.Services.AddHttpClient<IYoutube, YoutubeAPIService>();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+    });
 
 /// Adicionando o Quartz como serviço de Scheduling Job e configurando
-builder.Services.AddQuartz(quartz => 
-{
+// builder.Services.AddQuartz(quartz => 
+// {
 
-    var FixLivesOnYoutube = new JobKey("FixLivesOnYoutubeJob");
+//     var FixLivesOnYoutube = new JobKey("FixLivesOnYoutubeJob");
 
-    quartz.AddJob<FixLivesOnYoutubeJob>(options => options.WithIdentity(FixLivesOnYoutube));
-    quartz.AddTrigger(options => options
-        .ForJob(FixLivesOnYoutube)
-        .WithIdentity("FixLivesOnYoutubeJob")
-        .WithCronSchedule("0/35 * * * * ?")
-    );
+//     quartz.AddJob<FixLivesOnYoutubeJob>(options => options.WithIdentity(FixLivesOnYoutube));
+//     // quartz.AddTrigger(options => options
+//     //     .ForJob(FixLivesOnYoutube)
+//     //     .WithIdentity("FixLivesOnYoutubeJob")
+//     //     .WithCronSchedule("0/35 * * * * ?")
+//     // );
 
-    // var ScheduleLiveJobKey = new JobKey("ScheduleLiveJob");
+// //     // var ScheduleLiveJobKey = new JobKey("ScheduleLiveJob");
     
-    // quartz.AddJob<>(options => options
-    //     .WithIdentity(ScheduleLiveJobKey)
-    // );
+// //     // quartz.AddJob<>(options => options
+// //     //     .WithIdentity(ScheduleLiveJobKey)
+// //     // );
 
-    // quartz.AddTrigger(options => options
-    //     .ForJob(ScheduleLiveJobKey)
-    //     .WithIdentity("ScheduleLiveOnYoutube - Trigger")
-    //     .WithCronSchedule("0/15 * * * * ?")
-    // );
+// //     // quartz.AddTrigger(options => options
+// //     //     .ForJob(ScheduleLiveJobKey)
+// //     //     .WithIdentity("ScheduleLiveOnYoutube - Trigger")
+// //     //     .WithCronSchedule("0/15 * * * * ?")
+// //     // );
 
-    // var UpdateLivestreamJobKey = new JobKey("UpdateLiveJob");
+// //     // var UpdateLivestreamJobKey = new JobKey("UpdateLiveJob");
 
-    // quartz.AddJob<UpdateLivestream>(options => options
-    //     .WithIdentity(UpdateLivestreamJobKey)
-    // );
+// //     // quartz.AddJob<UpdateLivestream>(options => options
+// //     //     .WithIdentity(UpdateLivestreamJobKey)
+// //     // );
 
-    // quartz.AddTrigger(options => options
-    //     .ForJob(UpdateLivestreamJobKey)
-    //     .WithIdentity("UpdateLivestreamOnYoutube - Trigger")
-    //     .WithCronSchedule("0 6 * * 0") // 06h de todo domingo
-    // );
+// //     // quartz.AddTrigger(options => options
+// //     //     .ForJob(UpdateLivestreamJobKey)
+// //     //     .WithIdentity("UpdateLivestreamOnYoutube - Trigger")
+// //     //     .WithCronSchedule("0 6 * * 0") // 06h de todo domingo
+// //     // );
 
-});
+// });
 
-// Adiciona o serviço que efetivamente executa o agendador em segundo plano
+// // Adiciona o serviço que efetivamente executa o agendador em segundo plano
 builder.Services.AddQuartzHostedService(options =>
 {
-    // Aguarda a finalização dos jobs ao fechar a aplicação
     options.WaitForJobsToComplete = true;
 });
 
@@ -86,13 +92,13 @@ builder.Services
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.UseExceptionHandler();
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
 
-app.UseHttpsRedirection();
-
-
+app.MapControllers();
+// app.UseHttpsRedirection();
 app.Run();

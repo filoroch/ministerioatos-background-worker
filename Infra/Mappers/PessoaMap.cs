@@ -1,4 +1,5 @@
 using FluentNHibernate.Mapping;
+using NHibernate.Type;
 
 public class PessoaMap : ClassMap<Pessoa>
 {
@@ -16,11 +17,11 @@ public class PessoaMap : ClassMap<Pessoa>
 
         Map(p => p.Situacao)
             .CustomType("situacao")
-            .CustomType<GenericEnumMapper<ESituacaoPessoa>>();
+            .CustomType<EnumStringType<ESituacaoPessoa>>();
 
         Map(p => p.Status)
             .CustomType("status")
-            .CustomType<GenericEnumMapper<EStatusPessoa>>();
+            .CustomType<EnumStringType<EStatusPessoa>>();
 
         Table("congregacoes");
     }

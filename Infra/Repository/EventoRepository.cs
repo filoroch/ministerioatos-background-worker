@@ -86,8 +86,9 @@ public class EventoRepository : IEventoRepository
     /// Salva ou atualiza aquele evento especifico no banco
     /// </summary>
     /// <param name="evento"></param>
-    /// <returns></returns>
-    public async Task SaveOrUpdateAsync(Evento evento)
+    /// <returns></returns
+
+    public async Task<int> SaveOrUpdateAsync(Evento evento)
     {
         if (evento.Id != null)
         {
@@ -95,5 +96,6 @@ public class EventoRepository : IEventoRepository
         }
         
         await session.SaveOrUpdateAsync(evento);
+        return evento.Id;
     }
 }

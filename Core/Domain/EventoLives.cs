@@ -31,11 +31,11 @@ public class EventoLives
 
     public void DefineTitulo()
     {
-        var dia = Evento.DataHora.Day.ToString();
-        var mes = Evento.DataHora.Month.ToString(); 
+        //var dia = Evento.DataHora.Day.ToString();
+        //var mes = Evento.DataHora.Month.ToString(); 
         var titulo = Evento.Titulo;
 
-        Titulo = $"{dia}/{mes} | {titulo}";
+        Titulo = $"{Evento.DataHora:dd/MM} | {titulo}";
     }
 
     public void DefineDataHora()

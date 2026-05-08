@@ -1,3 +1,5 @@
+using NHibernate.Linq;
+
 public class EventoLiveRepository : IEventoLiveRepository
 {
     private readonly NHibernate.ISession session;
@@ -7,9 +9,13 @@ public class EventoLiveRepository : IEventoLiveRepository
         session = _session;
     }
     
-    public Task<ICollection<EventoLives>> GetAllAsync()
+    public async Task<ICollection<EventoLives>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        var query = await session
+            .Query<EventoLives>()
+            .ToListAsync();
+
+        return query;
     }
 
     public async Task<EventoLives> GetByIdAsync(int id)
@@ -20,7 +26,7 @@ public class EventoLiveRepository : IEventoLiveRepository
 
         if (target == null)
         {
-            throw new Exception("O valor não pode ser nulo");
+            throw new DomainException("O valor do id não pode ser nulo");
         }
 
        return target;

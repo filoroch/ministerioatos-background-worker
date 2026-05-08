@@ -1,11 +1,39 @@
+using Microsoft.IdentityModel.Tokens;
+
 public class EventoService : IEventoService
 {
 
     private readonly IEventoRepository repository;
+    private readonly ICongregacaoService congregacaoService;
 
     public EventoService(IEventoRepository _repository)
     {
         repository = _repository;
+    }
+
+    public async Task<int> Create(CreateEventoCommander cmd)
+    {
+        if (cmd.Titulo.IsNullOrEmpty() && cmd.DataHora == null)
+        {
+            throw new Exception("São necessarios os valores titulo e data e hora para registrar um evento");
+        }
+    
+        Congregacao? congregacao = null;
+        if (cmd.idCongregacao.HasValue)
+        {
+            congregacao = await congregacaoService.GetCongregacaoByIdAsync(cmd.idCongregacao.Value);
+        }
+
+        var newEvent = new Evento
+        (
+            _titulo: cmd.Titulo,
+            _dataHora: cmd.DataHora,
+            _descricao: cmd.Descricao,
+            _congregacao: congregacao
+        );
+
+        var id = await repository.SaveOrUpdateAsync(newEvent);
+        return id;
     }
 
     public Task<ICollection<Evento>> GetByCongregacaoAsync()
@@ -21,7 +49,7 @@ public class EventoService : IEventoService
 
     public Task<ICollection<Evento>> GetEventosAsync()
     {
-        throw new NotImplementedException();
+        repository.GetAllAsync();
     }
 
     public Task<ICollection<Evento>> GetEventsByStatusAsync()
@@ -29,3 +57,4 @@ public class EventoService : IEventoService
         throw new NotImplementedException();
     }
 }
+

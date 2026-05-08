@@ -1,16 +1,22 @@
+using System.Diagnostics.Tracing;
+
 public class EventoLiveService : IEventoLiveService
 {
-    private readonly IEventoLiveRepository eventoLiveRepository;
+    private readonly IEventoLiveRepository repository;
 
     public EventoLiveService(IEventoLiveRepository _eventoLiveRepository)
     {
-        eventoLiveRepository = _eventoLiveRepository;
+        repository = _eventoLiveRepository;
     }
 
     public async Task CreateEventoLive(CreateEventLiveCommander cmd)
     {
-        await eventoLiveRepository.SaveOrUpdateAsync(
-            new EventoLives(_evento: cmd.Evento, _urlLive: cmd.UrlLive)
+        await repository.SaveOrUpdateAsync(
+            new EventoLives
+            (
+                _evento: cmd.Evento, 
+                _urlLive: cmd.UrlLive
+            )
         );
     }
 
@@ -25,8 +31,20 @@ public class EventoLiveService : IEventoLiveService
         throw new NotImplementedException();
     }
 
+    public async Task<EventoLives> GetEventoLiveByIdAsync(int id)
+    {
+        var eventId = await repository.GetByIdAsync(id);
+
+        if(eventId == null)
+        {
+            throw new DomainException("O valor do id de uma live não pode ser nulo");
+        }
+
+        return eventId;
+    }
+
     public Task<ICollection<EventoLives>> GetEventsLiveAsync()
     {
-        throw new NotImplementedException();
+        return repository.GetAllAsync();
     }
 }
