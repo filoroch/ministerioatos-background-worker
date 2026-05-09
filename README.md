@@ -40,6 +40,9 @@ sequenceDiagram
 
 ## Proximos passos
 - [ ] Criar endpoints para rodar um job manualmente
+- [ ] Separar a API do core dos Jobs
+- [ ] Criar um job de healthcheck que verifica o estado da aplicação
+- [ ] Usar result Pattern para representar erros de negocio
 - [x] Alterar a forma de comunicação com o banco de rest para SQL (NHibernate)
 - [x] Usar o Liquibase para criar e versionar o banco
 - [ ] Verificar o uso das SDKs do Telegram, Youtube e Cloudnary em vez das APIs
