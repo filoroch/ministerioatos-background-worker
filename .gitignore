@@ -486,4 +486,6 @@ $RECYCLE.BIN/
 # Dados de cache do ASP.NET
 *.lscache
 
+# Liquibase
 .liquibase-community/
+liquibase.properties

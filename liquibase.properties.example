@@ -1,0 +1,15 @@
+# Caminho para o arquivo principal de log de mudanças
+changelog-file: db/changelog/db.changelog-master.xml
+
+# Configurações de Conexão no padrão JDBC
+url: jdbc:mariadb://localhost:3306/dbname
+username: username
+password: password
+driver: org.mariadb.jdbc.Driver 
+
+# Caminho para o driver JDBC do banco utilizado. 
+# Descomente segundo o sistema operacional utilizado e ajuste o caminho conforme necessário.
+# Windows 
+# classpath: C:/Program Files/liquibase/internal/lib/mariadb-java-client.jar
+# Linux
+# classpath: /usr/local/lib/mariadb-java-client.jar
