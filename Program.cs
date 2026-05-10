@@ -13,6 +13,7 @@ builder.Services.AddScoped<IEventoLiveRepository, EventoLiveRepository>();
 builder.Services.AddScoped<IEventoService, EventoService>();
 builder.Services.AddScoped<IEventoLiveService, EventoLiveService>();
 builder.Services.AddHttpClient<IYoutube, YoutubeAPIService>();
+builder.Services.AddHttpClient<IStorageService, CloudinaryService>();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 builder.Services.AddControllers()

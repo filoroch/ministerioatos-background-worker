@@ -1,4 +1,6 @@
 public interface IStorageService
 {
-    void GetMediaById();
+    Task<string> GetResourceById(string id);
+    Task<string> GetResourceByName(string name);
+    Task DownloadResouceById(string id);
 }
