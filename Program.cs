@@ -70,11 +70,13 @@ builder.Services.AddQuartzHostedService(options =>
     options.WaitForJobsToComplete = true;
 });
 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
 // Registra a fabrica de Sessões do NHIbernate como um serviço global (singleton)
 builder.Services.AddSingleton<ISessionFactory>(sp => {
     return Fluently.Configure()
             .Database(MySQLConfiguration.Standard
-                .ConnectionString("Server=localhost;Database=ministerioatos;User ID=root;Password=;")
+                .ConnectionString(connectionString)
                 .Driver<NHibernate.Driver.MySqlDataDriver>()
             )
             // .Database(PostgreSQLConfiguration.Standard
