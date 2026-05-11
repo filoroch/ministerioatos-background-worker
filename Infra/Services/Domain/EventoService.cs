@@ -47,9 +47,10 @@ public class EventoService : IEventoService
         return eventsByRange;
     }
 
-    public Task<ICollection<Evento>> GetEventosAsync()
+    public async Task<ICollection<Evento>> GetEventosAsync()
     {
-        repository.GetAllAsync();
+        var e = await repository.GetAllAsync();
+        return e;
     }
 
     public Task<ICollection<Evento>> GetEventsByStatusAsync()

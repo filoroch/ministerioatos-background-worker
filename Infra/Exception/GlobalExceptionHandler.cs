@@ -1,4 +1,3 @@
-using FluentNHibernate.Conventions.AcceptanceCriteria;
 using Microsoft.AspNetCore.Diagnostics;
 
 public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IExceptionHandler

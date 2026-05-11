@@ -28,6 +28,7 @@ public class CloudinaryService : IStorageService
     public async Task DownloadResouceById(string id)
     {
         var url = this.GetResourceById(id);
+        var path = $"{_rootPath}/Resources";
 
         var response = await _client.GetAsync(
             url.Result, 
@@ -38,7 +39,7 @@ public class CloudinaryService : IStorageService
         
         var stream = await response.Content.ReadAsStreamAsync();
         var store = new FileStream(
-            "/Resources", 
+            path, 
             FileMode.Create, 
             FileAccess.Write,
             FileShare.Read
@@ -52,7 +53,7 @@ public class CloudinaryService : IStorageService
         throw new NotImplementedException();
     }
 
-    async Task<string> GetResourceById(string id)
+    public async Task<string> GetResourceById(string id)
     {
         var response = await _cloudinary.GetResourceAsync(id);
         return response.Url;
