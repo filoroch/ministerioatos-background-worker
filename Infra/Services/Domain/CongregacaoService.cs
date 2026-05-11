@@ -1,13 +1,15 @@
-public class CongregacaoService : ICongregacaoService
+public class CongregacaoService(ICongregacaoRepository repository) : ICongregacaoService
 {
+    private readonly ICongregacaoRepository _repository = repository;
     public Task<IEnumerable<Congregacao>> GetAllCongregacoes()
     {
         throw new NotImplementedException();
     }
 
-    public Task<Congregacao> GetCongregacaoByIdAsync(int id)
+    public async Task<Congregacao> GetCongregacaoByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        var congregacao = await _repository.GetByIdAsync(id);
+        return congregacao;
     }
 
     public Task<IEnumerable<Congregacao>> GetCongregacaoByTituloAsync(string titulo)

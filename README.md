@@ -1,8 +1,6 @@
 <center> <h1> Portal | Ad Ministerio Atos </center>
 
-Esse projeto se concentra em criar um agendador de tarefas para de forma assincrona e programada, executar ações como:
-- Agendar lives no Youtube com base em eventos da Igreja
-- Encaminhar mensagens de telegram/whatsapp programaticamente com base em linhas de uma tabela
+Esse projeto se concentra em criar backend robusto contendo um agendador de tarefas para de forma assincrona e programada e uma api para executar essas tarefas, bem como, expor dados de negocio de forma padronizada e segura.
 
 ## Arquitetura
 O projeto precisa seguir uma arquitetura que lembre um pouco da clean arch, sendo:
@@ -45,6 +43,7 @@ sequenceDiagram
   Job ->>+ Service: 1.4 Persiste os dados de agendamento
   Job ->>+ Communication: 1.5 Envia o log completo no telegram
 ```
+
 ## Como rodar
 1. Defina as variaveis de ambiente
     ```bash

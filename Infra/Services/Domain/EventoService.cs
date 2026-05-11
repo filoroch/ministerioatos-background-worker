@@ -1,19 +1,21 @@
 using Microsoft.IdentityModel.Tokens;
+using MinisterioAtos.Application.Commanders.Evento;
+using NHibernate.Util;
 
-public class EventoService : IEventoService
+public class EventoService(
+    IEventoRepository repository, 
+    ICongregacaoService congregacaoService, 
+    ILogger<EventoService> logger
+) : IEventoService
 {
 
-    private readonly IEventoRepository repository;
-    private readonly ICongregacaoService congregacaoService;
+    private readonly IEventoRepository _repository = repository;
+    private readonly ICongregacaoService _congregacaoService = congregacaoService;
+    private readonly ILogger<EventoService> _logger = logger;
 
-    public EventoService(IEventoRepository _repository)
+    public async Task<OutputEventoCommander> Create(InputEventoCommander cmd)
     {
-        repository = _repository;
-    }
-
-    public async Task<int> Create(CreateEventoCommander cmd)
-    {
-        if (cmd.Titulo.IsNullOrEmpty() && cmd.DataHora == null)
+        if (string.IsNullOrEmpty(cmd.Titulo) && cmd.DataHora == null)
         {
             throw new Exception("São necessarios os valores titulo e data e hora para registrar um evento");
         }
@@ -21,39 +23,56 @@ public class EventoService : IEventoService
         Congregacao? congregacao = null;
         if (cmd.idCongregacao.HasValue)
         {
-            congregacao = await congregacaoService.GetCongregacaoByIdAsync(cmd.idCongregacao.Value);
+            congregacao = await _congregacaoService.GetCongregacaoByIdAsync(cmd.idCongregacao.Value);
         }
 
-        var newEvent = new Evento
-        (
+        var newEvent = new Evento(
             _titulo: cmd.Titulo,
             _dataHora: cmd.DataHora,
             _descricao: cmd.Descricao,
             _congregacao: congregacao
         );
 
-        var id = await repository.SaveOrUpdateAsync(newEvent);
-        return id;
+        var entity = await _repository.SaveAsync(newEvent);
+
+        return new OutputEventoCommander(
+            Titulo: entity.Titulo, 
+            Descricao: entity.Descricao,
+            DataHora: entity.DataHora, 
+            Congregacao: entity.Congregacao?.ToString()
+        );
     }
 
-    public Task<ICollection<Evento>> GetByCongregacaoAsync()
+    public Task<ICollection<OutputEventoCommander>> GetByCongregacaoAsync()
     {
         throw new NotImplementedException();
     }
 
-    public Task<ICollection<Evento>> GetByDateRange(DateTime startDate, DateTime endDate)
+    public async Task<ICollection<OutputEventoCommander>> GetByDateRange(DateTime startDate, DateTime endDate)
     {
-        var eventsByRange = repository.GetByDateRange(startDate, endDate);
-        return eventsByRange;
+        var eventsByRange = await _repository.GetByDateRange(startDate, endDate);
+        var output = new List<OutputEventoCommander>();
+
+        foreach (var events in eventsByRange)
+        {
+            output.Add(new OutputEventoCommander(events.Titulo, events.Descricao, events.DataHora, events.Congregacao.ToString()));    
+        }
+            
+        return output;
     }
 
-    public async Task<ICollection<Evento>> GetEventosAsync()
+    public async Task<ICollection<OutputEventoCommander>> GetEventosAsync()
     {
-        var e = await repository.GetAllAsync();
+        var e = await _repository.GetAllAsync();
         return e;
     }
 
-    public Task<ICollection<Evento>> GetEventsByStatusAsync()
+    public Task<ICollection<OutputEventoCommander>> GetEventsByStatusAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<OutputEventoCommander> Update(InputEventoCommander cmd)
     {
         throw new NotImplementedException();
     }

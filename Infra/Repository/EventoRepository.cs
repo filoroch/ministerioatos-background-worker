@@ -3,10 +3,12 @@ using NHibernate.Linq;
 public class EventoRepository : IEventoRepository
 {
     private readonly NHibernate.ISession session;
+    private readonly ILogger<EventoRepository> _logger;
 
-    public EventoRepository(NHibernate.ISession _session)
+    public EventoRepository(NHibernate.ISession _session, ILogger<EventoRepository> logger)
     {
         session = _session;
+        _logger = logger;
     }
 
     public async Task<ICollection<Evento>> GetAllAsync()
@@ -88,14 +90,13 @@ public class EventoRepository : IEventoRepository
     /// <param name="evento"></param>
     /// <returns></returns
 
-    public async Task<int> SaveOrUpdateAsync(Evento evento)
+    public async Task<Evento> SaveAsync(Evento evento)
     {
-        if (evento.Id != null)
-        {
-            evento = await GetByIdAsync(evento.Id);
-        }
-        
+        // if (evento.Id != null)
+        // {
+        //     evento = await GetByIdAsync(evento.Id);
+        // }
         await session.SaveOrUpdateAsync(evento);
-        return evento.Id;
+        return evento;
     }
 }

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Diagnostics;
+using NHibernate.Engine;
 
 public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IExceptionHandler
 {
@@ -20,7 +21,7 @@ public class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IE
         var originClass = declaringType?.Name ?? "Unknown";
         int statusCode = exception switch
         {
-            DomainNotFound => StatusCodes.Status404NotFound,
+            DomainException => StatusCodes.Status404NotFound,
             _ => StatusCodes.Status500InternalServerError
         };
 

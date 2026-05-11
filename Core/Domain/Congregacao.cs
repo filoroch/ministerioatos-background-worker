@@ -20,5 +20,10 @@ public class Congregacao
     {
         return Id == congregacao_id? true : false;
     }
+
+    public override string ToString()
+    {
+        return $"{Rua} {Numero}, {Area} - {Cidade}/{UF}";
+    }
 }
 

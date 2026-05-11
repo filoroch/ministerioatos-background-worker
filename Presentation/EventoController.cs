@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using MinisterioAtos.Application.Commanders.Evento;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -11,18 +12,24 @@ public class EventoController : ControllerBase
         service = _eventoService;
     }
 
+    // TODO: Garantir que o retorno aqui seja um json com objetos e não uma lista de jsons
     [HttpGet]
-    public async Task<IActionResult> GetEventoAsync()
+    public async Task<IActionResult> GetEventoAsync([FromQuery] FilterEventoCommander filter)
     {
-        var events = await service.GetEventosAsync();
+        ICollection<OutputEventoCommander>? events = null;
+
+        if (filter == null)
+        {
+            events = await service.GetEventosAsync();
+        }
+
         return Ok(events);
     }
 
     [HttpPost]
-    public async Task<IActionResult> PostEventoAsync([FromBody] CreateEventoCommander createEventoCommander)
+    public async Task<IActionResult> PostEventoAsync([FromBody] InputEventoCommander createEventoCommander)
     {
-        var id = await service.Create(createEventoCommander);
-        var uri = new Uri($"/api/Evento/{id}", UriKind.Relative);
-        return CreatedAtAction("GetEventoById", new { id = id }, id);
+        var created = await service.Create(createEventoCommander);
+        return Accepted(nameof(PostEventoAsync), created);
     }
 }

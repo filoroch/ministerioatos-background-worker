@@ -12,6 +12,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 builder.Services.AddScoped<IEventoRepository, EventoRepository>();
 builder.Services.AddScoped<IEventoLiveRepository, EventoLiveRepository>();
+builder.Services.AddScoped<ICongregacaoRepository, CongregacaoRepository>();
+builder.Services.AddScoped<ICongregacaoService, CongregacaoService>();
 builder.Services.AddScoped<IEventoService, EventoService>();
 builder.Services.AddScoped<IEventoLiveService, EventoLiveService>();
 builder.Services.AddScoped<IJobSchedulerService, QuartzJobSchedulerService>();

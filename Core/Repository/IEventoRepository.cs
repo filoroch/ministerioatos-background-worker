@@ -4,7 +4,7 @@ public interface IEventoRepository
     Task<ICollection<Evento>> GetByDateRange(DateTime startDate, DateTime endDate);
     Task<ICollection<Evento>> GetByCongregacao(Congregacao Congregacao);
     Task<ICollection<Evento>> GetByCongregacao(int idCongregacao);
-    Task<int> SaveOrUpdateAsync(Evento evento);
+    Task<Evento> SaveAsync(Evento evento);
     //Task DeleteAsync(T element);
     Task<ICollection<Evento>> GetAllAsync();
     Task<ICollection<Evento>> GetByStatus(string status);

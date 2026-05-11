@@ -23,7 +23,7 @@ public class Evento
         Congregacao? _congregacao 
     )
     {
-        Titulo = String.IsNullOrWhiteSpace(_titulo) ? _titulo : throw new Exception("Titulo não pode ser nulo ou estar em branco para registar um novo evento"); 
+        Titulo = String.IsNullOrWhiteSpace(_titulo) ? throw new DomainException("Titulo não pode ser nulo ou estar em branco para registar um novo evento") : _titulo; 
         DataHora = _dataHora;
         Descricao = String.IsNullOrWhiteSpace(_descricao) ? _descricao : "";
         

@@ -1,8 +1,11 @@
+using MinisterioAtos.Application.Commanders.Evento;
+
 public interface IEventoService
 {
-    Task<int> Create(CreateEventoCommander cmd);
-    Task<ICollection<Evento>> GetByDateRange(DateTime startDate, DateTime endDate);
-    Task<ICollection<Evento>> GetEventosAsync();
-    Task<ICollection<Evento>> GetByCongregacaoAsync();
-    Task<ICollection<Evento>> GetEventsByStatusAsync();
+    Task<OutputEventoCommander> Create(InputEventoCommander cmd);
+    Task<OutputEventoCommander> Update(InputEventoCommander cmd);
+    Task<ICollection<OutputEventoCommander>> GetByDateRange(DateTime startDate, DateTime endDate);
+    Task<ICollection<OutputEventoCommander>> GetEventosAsync();
+    Task<ICollection<OutputEventoCommander>> GetByCongregacaoAsync();
+    Task<ICollection<OutputEventoCommander>> GetEventsByStatusAsync();
 }
